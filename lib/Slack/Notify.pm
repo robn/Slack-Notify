@@ -130,7 +130,7 @@ sub _build__hash { my ($self) = @_; +{ %$self } }
 
 =head1 NAME
 
-Slack-Notify - Trigger Slack incoming webhooks
+Slack::Notify - Trigger Slack incoming webhooks
 
 =head1 SYNOPSIS
 
