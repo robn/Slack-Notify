@@ -4,11 +4,12 @@ package Slack::Notify {
 
 use namespace::autoclean;
 
-use HTTP::Tiny;
-
 use Moo;
 use Types::Standard qw(Str);
 use Type::Utils qw(class_type);
+
+use HTTP::Tiny;
+use JSON::MaybeXS;
 
 has hook_url => ( is => 'ro', isa => Str, required => 1 );
 
@@ -20,7 +21,7 @@ sub post {
   my $payload = Slack::Notify::Payload->new(%args);
   $self->_http->post_form(
     $self->hook_url,
-    { payload => $payload->to_json },
+    { payload => encode_json($payload->to_hash) },
   );
 }
 
@@ -32,26 +33,90 @@ package # hide from PAUSE
 use namespace::autoclean;
 
 use Moo;
-use Types::Standard qw(Str);
+use Types::Standard qw(Str ArrayRef HashRef);
+use Type::Utils qw(class_type);
 
-use JSON::MaybeXS;
 
 has text       => ( is => 'ro', isa => Str );
 has username   => ( is => 'ro', isa => Str );
 has icon_url   => ( is => 'ro', isa => Str );
 has icon_emoji => ( is => 'ro', isa => Str );
 
-sub to_json { shift->_json }
-has _json => ( is => 'lazy', isa => Str );
-sub _build__json {
+has attachments => (
+  is     => 'ro',
+  isa    => ArrayRef[class_type('Slack::Notify::Attachment')->plus_coercions(HashRef, 'Slack::Notify::Attachment->new(%$_)')],
+  coerce => 1,
+);
+
+sub to_hash { shift->_hash }
+has _hash => ( is => 'lazy', isa => HashRef );
+sub _build__hash {
   my ($self) = @_;
-  encode_json({
-    defined $self->text       ? ( text       => $self->text       ) : (),
-    defined $self->username   ? ( username   => $self->username   ) : (),
-    defined $self->icon_url   ? ( icon_url   => $self->icon_url   ) : (),
-    defined $self->icon_emoji ? ( icon_emoji => $self->icon_emoji ) : (),
-  });
+  +{
+    %$self,
+    map { defined $self->$_ ? ($_ => [ map { $_->to_hash } @{$self->{$_}} ]) : () } qw(attachments),
+  };
 }
+
+}
+
+package # hide from PAUSE
+  Slack::Notify::Attachment {
+
+use namespace::autoclean;
+
+use Moo;
+use Types::Standard qw(Str Int ArrayRef HashRef);
+use Type::Utils qw(class_type);
+
+has fallback    => ( 'is' => 'ro', isa => Str );
+has color       => ( 'is' => 'ro', isa => Str );
+has pretext     => ( 'is' => 'ro', isa => Str );
+has author_name => ( 'is' => 'ro', isa => Str );
+has author_link => ( 'is' => 'ro', isa => Str );
+has author_icon => ( 'is' => 'ro', isa => Str );
+has title       => ( 'is' => 'ro', isa => Str );
+has title_link  => ( 'is' => 'ro', isa => Str );
+has text        => ( 'is' => 'ro', isa => Str );
+has image_url   => ( 'is' => 'ro', isa => Str );
+has thumb_url   => ( 'is' => 'ro', isa => Str );
+has footer      => ( 'is' => 'ro', isa => Str );
+has footer_icon => ( 'is' => 'ro', isa => Str );
+has ts          => ( 'is' => 'ro', isa => Int );
+
+has fields => (
+  is     => 'ro',
+  isa    => ArrayRef[class_type('Slack::Notify::Field')->plus_coercions(HashRef, 'Slack::Notify::Field->new(%$_)')],
+  coerce => 1,
+);
+
+sub to_hash { shift->_hash }
+has _hash => ( is => 'lazy', isa => HashRef );
+sub _build__hash {
+  my ($self) = @_;
+  +{
+    %$self,
+    map { defined $self->$_ ? ($_ => [ map { $_->to_hash } @{$self->{$_}} ]) : () } qw(fields),
+  };
+}
+
+}
+
+package # hide from PAUSE
+  Slack::Notify::Field {
+
+use namespace::autoclean;
+
+use Moo;
+use Types::Standard qw(Str Bool HashRef);
+
+has title => ( 'is' => 'ro', isa => Str );
+has value => ( 'is' => 'ro', isa => Str );
+has short => ( 'is' => 'ro', isa => Bool );
+
+sub to_hash { shift->_hash }
+has _hash => ( is => 'lazy', isa => HashRef );
+sub _build__hash { my ($self) = @_; +{ %$self } }
 
 }
 
@@ -140,6 +205,15 @@ URL of an image to use for the icon, overriding the one set in the hook config.
 C<icon_emoji>
 
 An emoji code (eg C<:+1:>) to use for the icon, overriding the one set in the hook config.
+
+=item *
+
+C<attachments>
+
+An arrayref containing some attachment objects. See the
+L<attachment guide|https://api.slack.com/docs/message-attachments> for details.
+At the moment this module supports attachment fields, but not buttons, menus
+and other interactive ocontent.
 
 =back
 

@@ -62,6 +62,13 @@ described in more detail in the
 
     An emoji code (eg `:+1:`) to use for the icon, overriding the one set in the hook config.
 
+- `attachments`
+
+    An arrayref containing some attachment objects. See the
+    [attachment guide](https://api.slack.com/docs/message-attachments) for details.
+    At the moment this module supports attachment fields, but not buttons, menus
+    and other interactive ocontent.
+
 # SUPPORT
 
 ## Bugs / Feature Requests
