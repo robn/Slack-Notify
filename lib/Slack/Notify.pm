@@ -16,7 +16,7 @@ has hook_url => ( is => 'ro', isa => Str, required => 1 );
 has _http => ( is => 'lazy', isa => class_type('HTTP::Tiny') );
 sub _build__http { HTTP::Tiny->new }
 
-my $JSON = JSON::XS->new->ascii;
+my $JSON = JSON::MaybeXS->new(ascii => 1);
 
 sub post {
   my ($self, %args) = @_;
