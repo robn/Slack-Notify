@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Getopt::Long::Descriptive" => 0,
     "HTTP::Tiny" => 0,
+    "IO::Socket::SSL" => 0,
     "JSON::MaybeXS" => 0,
     "Moo" => 0,
     "Type::Utils" => 0,
