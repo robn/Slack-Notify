@@ -1,4 +1,5 @@
 package Slack::Notify;
+
 {
 
 # ABSTRACT: Trigger Slack incoming webhooks
