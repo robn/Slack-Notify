@@ -43,6 +43,7 @@ has text       => ( is => 'ro', isa => Str );
 has username   => ( is => 'ro', isa => Str );
 has icon_url   => ( is => 'ro', isa => Str );
 has icon_emoji => ( is => 'ro', isa => Str );
+has channel    => ( is => 'ro', isa => Str );
 
 has attachments => (
   is     => 'ro',
@@ -207,6 +208,12 @@ URL of an image to use for the icon, overriding the one set in the hook config.
 C<icon_emoji>
 
 An emoji code (eg C<:+1:>) to use for the icon, overriding the one set in the hook config.
+
+=item *
+
+C<channel>
+
+A channel name or user to direct to direct the message into, overriding the one set in the hook config.
 
 =item *
 
