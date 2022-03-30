@@ -62,6 +62,10 @@ described in more detail in the
 
     An emoji code (eg `:+1:`) to use for the icon, overriding the one set in the hook config.
 
+- `channel`
+
+    A channel name or user to direct to direct the message into, overriding the one set in the hook config.
+
 - `attachments`
 
     An arrayref containing some attachment objects. See the
