@@ -1,4 +1,5 @@
-package Slack::Notify {
+package Slack::Notify;
+{
 
 # ABSTRACT: Trigger Slack incoming webhooks
 
@@ -30,7 +31,8 @@ sub post {
 }
 
 package # hide from PAUSE
-  Slack::Notify::Payload {
+  Slack::Notify::Payload;
+{
 
 use namespace::autoclean;
 
@@ -64,7 +66,8 @@ sub _build__hash {
 }
 
 package # hide from PAUSE
-  Slack::Notify::Attachment {
+  Slack::Notify::Attachment;
+{
 
 use namespace::autoclean;
 
@@ -106,7 +109,8 @@ sub _build__hash {
 }
 
 package # hide from PAUSE
-  Slack::Notify::Field {
+  Slack::Notify::Field;
+{
 
 use namespace::autoclean;
 
