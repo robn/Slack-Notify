@@ -43,6 +43,7 @@ use Type::Utils qw(class_type);
 
 
 has text       => ( is => 'ro', isa => Str );
+has blocks     => ( is => 'ro', isa => ArrayRef );
 has username   => ( is => 'ro', isa => Str );
 has icon_url   => ( is => 'ro', isa => Str );
 has icon_emoji => ( is => 'ro', isa => Str );
@@ -195,6 +196,14 @@ L<incoming hook documentation|https://api.slack.com/incoming-webhooks>.
 C<text>
 
 A simple, multi-line message without special formatting.
+
+=item *
+
+C<blocks>
+
+A reference to an array containing
+L<BlockKit|https://api.slack.com/reference/block-kit> blocks.  (You don't need
+this if you're just sending C<text>.)
 
 =item *
 
