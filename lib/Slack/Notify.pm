@@ -263,13 +263,23 @@ L<https://github.com/robn/Slack-Notify>
 
 =item *
 
-Rob N ★ <robn@robn.io>
+Rob Norris <robn@despairlabs.com>
+
+=back
+
+=head1 CONTRIBUTORS
+
+=over 4
+
+=item *
+
+Ricardo Signes <rjbs@semiotic.systems>
 
 =back
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Rob N ★
+This software is copyright (c) 2017 by Rob Norris
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

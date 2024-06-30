@@ -50,6 +50,12 @@ described in more detail in the
 
     A simple, multi-line message without special formatting.
 
+- `blocks`
+
+    A reference to an array containing
+    [BlockKit](https://api.slack.com/reference/block-kit) blocks.  (You don't need
+    this if you're just sending `text`.)
+
 - `username`
 
     Value to use for the username, overriding the one set in the hook config.
@@ -92,11 +98,15 @@ public review and contribution under the terms of the license.
 
 # AUTHORS
 
-- Rob N ★ <robn@robn.io>
+- Rob Norris <robn@despairlabs.com>
+
+# CONTRIBUTORS
+
+- Ricardo Signes <rjbs@semiotic.systems>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2017 by Rob N ★
+This software is copyright (c) 2017 by Rob Norris
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
